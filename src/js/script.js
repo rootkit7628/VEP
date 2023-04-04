@@ -10,23 +10,23 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.shadowMap.enabled = true;
 // renderer.setClearColor( 0xF04938 );
-// const textureLoader = new THREE.TextureLoader();
-const cubeTextureLoader = new THREE.CubeTextureLoader();
+const textureLoader = new THREE.TextureLoader();
+// const cubeTextureLoader = new THREE.CubeTextureLoader();
 
 document.body.appendChild( renderer.domElement );
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
 const orbit = new OrbitControls( camera, renderer.domElement );
-// scene.background = textureLoader.load( nebula );
-scene.background = cubeTextureLoader.load( [
-    nebula,
-    nebula,
-    nebula,
-    nebula,
-    nebula,
-    nebula
-] );
+scene.background = textureLoader.load( nebula );
+// scene.background = cubeTextureLoader.load( [
+//     nebula,
+//     nebula,
+//     nebula,
+//     nebula,
+//     nebula,
+//     nebula
+// ] );
 
 camera.position.set( -10, 30, 30 );
 orbit.update();
@@ -45,6 +45,15 @@ box.position.set( 0, -3, 0 );
 box.castShadow = true;
 scene.add( box );
 
+const boxGeometry2 = new THREE.BoxGeometry( 5, 5, 5 );
+const boxMaterial2 = new THREE.MeshStandardMaterial( { 
+    map : textureLoader.load(nebula)
+} );
+const box2 = new THREE.Mesh( boxGeometry2, boxMaterial2 );
+box2.position.set( 0, 2.7, 0 );
+scene.add( box2 );
+
+
 // White Plane
 const planeGeometry = new THREE.PlaneGeometry( 30, 30 );
 const planeMaterial = new THREE.MeshStandardMaterial( { color: 0xffffff, side: THREE.DoubleSide } );
@@ -57,7 +66,7 @@ plane.rotation.x = Math.PI / 2;
 const sphereGeometry = new THREE.SphereGeometry( 3 , 50 , 50);
 const sphereMaterial = new THREE.MeshStandardMaterial( { color: 0x135c7a , wireframe: false} );
 const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-sphere.position.set( 0, 4, 0 );
+sphere.position.set( 0, 3, 0 );
 scene.add( sphere );
 sphere.castShadow = true;
 let step = 0;
